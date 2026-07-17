@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:practice/Stack_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -65,192 +66,217 @@ class _MyWidgetState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Home")),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Home"),
+          bottom: TabBar(
+            tabs: [
+              Tab(text: "Home"),
+              Tab(text: "Setting Screen"),
+            ],
+          ),
+        ),
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              DrawerHeader(
+                decoration: const BoxDecoration(color: Colors.blue),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    CircleAvatar(
+                      radius: 30,
+                      child: Icon(Icons.person, size: 35),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      "User Name",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      "Flutter Developer",
+                      style: TextStyle(color: Colors.white70),
+                    ),
+                  ],
+                ),
+              ),
+              // Home Menu Item
+              ListTile(
+                trailing: const Icon(
+                  Icons.arrow_forward_ios_outlined,
+                  color: Colors.blue,
+                  size: 15,
+                ),
+                leading: const Icon(Icons.home, color: Colors.blue),
+                title: const Text("Home"),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              // Profile Menu Item
+              ListTile(
+                leading: const Icon(Icons.account_circle, color: Colors.blue),
+                title: const Text("Profile"),
+                trailing: const Icon(
+                  Icons.arrow_forward_ios_outlined,
+                  color: Colors.blue,
+                  size: 15,
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              // Settings Menu Item
+              ListTile(
+                leading: const Icon(Icons.settings, color: Colors.blue),
+                title: const Text("Settings"),
+                trailing: const Icon(
+                  Icons.arrow_forward_ios_outlined,
+                  color: Colors.blue,
+                  size: 15,
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              const Divider(),
+              // Logout Menu Item
+              ListTile(
+                leading: const Icon(Icons.logout, color: Colors.red),
+                title: const Text(
+                  "Logout",
+                  style: TextStyle(color: Colors.red),
+                ),
+                onTap: () {
+                  _showLogoutDialog(context);
+                },
+              ),
+            ],
+          ),
+        ),
+
+        body: TabBarView(
           children: [
-            DrawerHeader(
-              decoration: const BoxDecoration(color: Colors.blue),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  CircleAvatar(radius: 30, child: Icon(Icons.person, size: 35)),
-                  SizedBox(height: 8),
-                  Text(
-                    "User Name",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: studentList.length,
+                    itemBuilder: (context, index) {
+                      return Card(
+                        child: ListTile(
+                          leading: const Icon(Icons.person),
+                          title: Text(studentList[index]["studentName"]!),
+                          subtitle: Text(studentList[index]["qualification"]!),
+                          trailing: const Icon(Icons.arrow_forward_ios_rounded),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                // Alert Dialog Trigger Button
+                InkWell(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text("Alert Dialog"),
+                          content: const Text("This is an alert dialog"),
+                          actions: [
+                            ElevatedButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: const Text("NO"),
+                            ),
+                            ElevatedButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: const Text("YES"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    height: 50,
+                    margin: const EdgeInsets.symmetric(horizontal: 20),
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 19, 7, 240),
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: const Center(
+                      child: Text(
+                        "Show Dialog",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ),
-                  Text(
-                    "Flutter Developer",
-                    style: TextStyle(color: Colors.white70),
+                ),
+                const SizedBox(height: 20),
+                // Bottom Sheet Trigger Button
+                InkWell(
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return Container(
+                          height: 300,
+                          width: double.infinity,
+                          color: Colors.white,
+                          child: Column(
+                            children: const [
+                              SizedBox(height: 20),
+                              Text("This is bottom sheet"),
+                              SizedBox(height: 20),
+                              Text("This is bottom sheet"),
+                              SizedBox(height: 20),
+                              Text("This is bottom sheet"),
+                              SizedBox(height: 20),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    height: 50,
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 10,
+                    ),
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 19, 7, 240),
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: const Center(
+                      child: Text(
+                        "Show Bottom sheet",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            // Home Menu Item
-            ListTile(
-              trailing: const Icon(
-                Icons.arrow_forward_ios_outlined,
-                color: Colors.blue,
-                size: 15,
-              ),
-              leading: const Icon(Icons.home, color: Colors.blue),
-              title: const Text("Home"),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            // Profile Menu Item
-            ListTile(
-              leading: const Icon(Icons.account_circle, color: Colors.blue),
-              title: const Text("Profile"),
-              trailing: const Icon(
-                Icons.arrow_forward_ios_outlined,
-                color: Colors.blue,
-                size: 15,
-              ),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            // Settings Menu Item
-            ListTile(
-              leading: const Icon(Icons.settings, color: Colors.blue),
-              title: const Text("Settings"),
-              trailing: const Icon(
-                Icons.arrow_forward_ios_outlined,
-                color: Colors.blue,
-                size: 15,
-              ),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            const Divider(),
-            // Logout Menu Item
-            ListTile(
-              leading: const Icon(Icons.logout, color: Colors.red),
-              title: const Text("Logout", style: TextStyle(color: Colors.red)),
-              onTap: () {
-                _showLogoutDialog(context);
-              },
-            ),
+
+            StackScreen(),
           ],
         ),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Expanded(
-            child: ListView.builder(
-              // 1. itemCount ko studentList ki length se map karein
-              itemCount: studentList.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  child: ListTile(
-                    leading: const Icon(Icons.person),
-                    // 2. Hardcoded text ki jagah studentList ka data index ke through bulayein
-                    title: Text(studentList[index]["studentName"]!),
-                    subtitle: Text(studentList[index]["qualification"]!),
-                    trailing: const Icon(Icons.arrow_forward_ios_rounded),
-                  ),
-                );
-              },
-            ),
-          ),
-          // Alert Dialog Trigger Button
-          InkWell(
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    title: const Text("Alert Dialog"),
-                    content: const Text("This is an alert dialog"),
-                    actions: [
-                      ElevatedButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: const Text("NO"),
-                      ),
-                      ElevatedButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: const Text("YES"),
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
-            child: Container(
-              width: double.infinity,
-              height: 50,
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 19, 7, 240),
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: const Center(
-                child: Text(
-                  "Show Dialog",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
-          // Bottom Sheet Trigger Button
-          InkWell(
-            onTap: () {
-              showModalBottomSheet(
-                context: context,
-                builder: (context) {
-                  return Container(
-                    height: 300,
-                    width: double.infinity,
-                    color: Colors.white,
-                    child: Column(
-                      children: const [
-                        SizedBox(height: 20),
-                        Text("This is bottom sheet"),
-                        SizedBox(height: 20),
-                        Text("This is bottom sheet"),
-                        SizedBox(height: 20),
-                        Text("This is bottom sheet"),
-                        SizedBox(height: 20),
-                      ],
-                    ),
-                  );
-                },
-              );
-            },
-            child: Container(
-              width: double.infinity,
-              height: 50,
-              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 19, 7, 240),
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: const Center(
-                child: Text(
-                  "Show Bottom sheet",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }

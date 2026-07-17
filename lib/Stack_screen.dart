@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:practice/color.dart';
 
 class StackScreen extends StatefulWidget {
   const StackScreen({super.key});
@@ -27,7 +28,6 @@ class _MyWidgetState extends State<StackScreen> {
               onPressed: () {
                 Navigator.pop(context); // Dialog close karein
                 Navigator.pop(context); // Drawer bhi close karein
-                // Aap yahan apni logout logic add kar sakte hain
               },
               child: const Text("YES"),
             ),
@@ -40,7 +40,39 @@ class _MyWidgetState extends State<StackScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Column(children: [const Text("Foodie")])),
+      backgroundColor: Colors.red,
+      appBar: AppBar(
+        title: Center(
+          child: Column(
+            children: [
+              Text(
+                "Foodie",
+                style: TextStyle(
+                  color: PrimaryColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20, // Medium size
+                ),
+              ),
+              Text(
+                "Good food. good mood",
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 13,
+                ), // Medium size
+              ),
+            ],
+          ),
+        ),
+        actions: const [
+          Padding(
+            padding: EdgeInsets.only(right: 18.0),
+            child: Icon(Icons.shopping_cart_outlined, size: 24),
+          ),
+        ],
+        backgroundColor: Colors.white,
+        elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.black),
+      ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -66,7 +98,6 @@ class _MyWidgetState extends State<StackScreen> {
                 ],
               ),
             ),
-            // Home Menu Item
             ListTile(
               trailing: const Icon(
                 Icons.arrow_forward_ios_outlined,
@@ -76,11 +107,9 @@ class _MyWidgetState extends State<StackScreen> {
               leading: const Icon(Icons.home, color: Colors.blue),
               title: const Text("Home"),
               onTap: () {
-                Navigator.pop(context); // Drawer close karne ke liye
+                Navigator.pop(context);
               },
             ),
-
-            // Profile Menu Item
             ListTile(
               leading: const Icon(Icons.account_circle, color: Colors.blue),
               title: const Text("Profile"),
@@ -93,7 +122,6 @@ class _MyWidgetState extends State<StackScreen> {
                 Navigator.pop(context);
               },
             ),
-            // Settings Menu Item
             ListTile(
               leading: const Icon(Icons.settings, color: Colors.blue),
               title: const Text("Settings"),
@@ -106,144 +134,683 @@ class _MyWidgetState extends State<StackScreen> {
                 Navigator.pop(context);
               },
             ),
-            const Divider(), // Ek clean line separating items
-            // Logout Menu Item
+            const Divider(),
             ListTile(
               leading: const Icon(Icons.logout, color: Colors.red),
               title: const Text("Logout", style: TextStyle(color: Colors.red)),
               onTap: () {
-                _showLogoutDialog(
-                  context,
-                ); // Logout par click karne se dialog khulega
+                _showLogoutDialog(context);
               },
             ),
           ],
         ),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          // Search Bar
           Container(
-            height: 200,
-            child: Stack(
+            height: 45, // Medium height
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            margin: const EdgeInsets.symmetric(horizontal: 16),
+            decoration: BoxDecoration(
+              color: const Color(0xFFF5F5F7),
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Row(
               children: [
-                Container(
-                  height: 100,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  // FIXED: Added the missing 'child:' property identifier here
-                  child: const Center(child: Text("RED Container ")),
-                ),
-
-                Positioned(
-                  top: 50,
-                  left: 10,
-                  right: 10,
-                  child: Container(
-                    height: 100,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: Colors.yellow,
-                      borderRadius: BorderRadius.circular(25),
+                Icon(Icons.search, color: Colors.grey[500], size: 22),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: TextField(
+                    decoration: InputDecoration(
+                      hintText: "Search for food.....",
+                      hintStyle: TextStyle(
+                        color: Colors.grey[400],
+                        fontSize: 14,
+                      ),
+                      border: InputBorder.none,
+                      isDense: true,
                     ),
-                    // FIXED: Added the missing 'child:' property identifier here
-                    child: const Center(child: Text("Yellow Container ")),
                   ),
                 ),
               ],
             ),
           ),
 
-          SizedBox(height: 20),
-          Spacer(),
-          // Alert Dialog Trigger Button
-          InkWell(
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    title: const Text("Alert Dialog"),
-                    content: const Text("This is an alert dialog"),
-                    actions: [
-                      ElevatedButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: const Text("NO"),
+          const SizedBox(height: 15),
+
+          // Special Offer Container
+          Container(
+            width: double.infinity,
+            margin: const EdgeInsets.symmetric(horizontal: 16),
+            decoration: BoxDecoration(
+              color: PrimaryColor,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Special offer",
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 236, 6, 6),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13,
+                        ),
                       ),
+                      const Text(
+                        "30% OFF",
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 8, 6, 6),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 22, // Medium size
+                        ),
+                      ),
+                      const Text(
+                        "on all burgers",
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
                       ElevatedButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: const Text("YES"),
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFFFF6B18),
+                          foregroundColor: Colors.white,
+                          elevation: 0,
+                          minimumSize: const Size(90, 30),
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
+                        child: const Text(
+                          "Order Now",
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     ],
-                  );
-                },
-              );
-            },
-            child: Container(
-              width: double.infinity,
-              height: 50,
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 19, 7, 240),
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: const Center(
-                child: Text(
-                  "Show Dialog",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              ),
+                const Spacer(),
+                Image.asset(
+                  "assets/images/burger.png",
+                  height: 85,
+                ), // Medium image size
+                const SizedBox(width: 10),
+              ],
             ),
           ),
-          const SizedBox(height: 20),
-          // Bottom Sheet Trigger Button
-          InkWell(
-            onTap: () {
-              showModalBottomSheet(
-                context: context,
-                builder: (context) {
-                  return Container(
-                    height: 300,
-                    width: double.infinity,
-                    color: Colors.white,
-                    child: Column(
-                      children: const [
-                        SizedBox(height: 20),
-                        Text("This is bottom sheet"),
-                        SizedBox(height: 20),
-                        Text("This is bottom sheet"),
-                        SizedBox(height: 20),
-                        Text("This is bottom sheet"),
-                        SizedBox(height: 20),
-                      ],
-                    ),
-                  );
-                },
-              );
-            },
-            child: Container(
-              width: double.infinity,
-              height: 50,
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 19, 7, 240),
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: const Center(
-                child: Text(
-                  "Show Bottom sheet",
+
+          const SizedBox(height: 15),
+
+          // Popular Items Header
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: const [
+                Text(
+                  "Popular items",
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Colors.black,
+                    fontSize: 18, // Medium size
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-              ),
+                Text(
+                  "See All",
+                  style: TextStyle(
+                    color: Color(0xFFFF6B18),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 10),
+
+          // YAHAN SE STACK SHURU HOTA HAI
+          Expanded(
+            child: Stack(
+              children: [
+                // Cards wala hissa (Background)
+                SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      // Pizza Card
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 5,
+                        ),
+                        child: Card(
+                          color: Colors.white,
+                          elevation: 2, // Wapas slight shadow
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                "assets/images/Pizz.png",
+                                height: 70,
+                              ), // Medium size
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        "Margherita Pizza",
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                      const Text(
+                                        "Cheesy Pizza with\nfresh tomatoes",
+                                        style: TextStyle(
+                                          fontSize: 11,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 5),
+                                      Row(
+                                        children: const [
+                                          Icon(
+                                            Icons.star,
+                                            color: Color(0xFFFF6B18),
+                                            size: 15,
+                                          ),
+                                          SizedBox(width: 4),
+                                          Text(
+                                            "4.6",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  right: 15,
+                                  top: 10,
+                                  bottom: 10,
+                                ),
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      "\$8.99",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 12),
+                                    Container(
+                                      height: 30, // Medium button
+                                      width: 30,
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFFFF6B18),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: const Icon(
+                                        Icons.add,
+                                        color: Colors.white,
+                                        size: 18,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      // Burger Card
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 5,
+                        ),
+                        child: Card(
+                          color: Colors.white,
+                          elevation: 2,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                "assets/images/burger.png",
+                                height: 50,
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        "Chicken Burger",
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                      const Text(
+                                        "Grilled chicken\nfresh veggies",
+                                        style: TextStyle(
+                                          fontSize: 11,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 5),
+                                      Row(
+                                        children: const [
+                                          Icon(
+                                            Icons.star,
+                                            color: Color(0xFFFF6B18),
+                                            size: 15,
+                                          ),
+                                          SizedBox(width: 4),
+                                          Text(
+                                            "4.5",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  right: 15,
+                                  top: 10,
+                                  bottom: 10,
+                                ),
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      "\$6.99",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 12),
+                                    Container(
+                                      height: 30,
+                                      width: 30,
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFFFF6B18),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: const Icon(
+                                        Icons.add,
+                                        color: Colors.white,
+                                        size: 18,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      // Fries Card
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 5,
+                        ),
+                        child: Card(
+                          color: Colors.white,
+                          elevation: 2,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                "assets/images/fires.png",
+                                height: 70,
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        "French Fries",
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                      const Text(
+                                        "Crispy golden fries\nwith salt",
+                                        style: TextStyle(
+                                          fontSize: 11,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 5),
+                                      Row(
+                                        children: const [
+                                          Icon(
+                                            Icons.star,
+                                            color: Color(0xFFFF6B18),
+                                            size: 15,
+                                          ),
+                                          SizedBox(width: 4),
+                                          Text(
+                                            "4.3",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  right: 15,
+                                  top: 10,
+                                  bottom: 10,
+                                ),
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      "\$3.49",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 12),
+                                    Container(
+                                      height: 30,
+                                      width: 30,
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFFFF6B18),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: const Icon(
+                                        Icons.add,
+                                        color: Colors.white,
+                                        size: 18,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      // Scroll ki extra height taake content cart ke uper rahe
+                      const SizedBox(height: 120),
+                    ],
+                  ),
+                ),
+
+                // MEDIUM YOUR CART PANEL (Foreground Stacked)
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    padding: const EdgeInsets.all(8.0), // Balanced Padding
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(25),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 10,
+                          spreadRadius: 2,
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // Drag handle line
+                        Container(
+                          height: 4,
+                          width: 40,
+                          margin: const EdgeInsets.only(bottom: 12),
+                          decoration: BoxDecoration(
+                            color: Colors.grey[300],
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+
+                        // Your Cart (2) & Clear Button
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: const [
+                            Text(
+                              "Your Cart (2)",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                              ),
+                            ),
+                            Text(
+                              "Clear",
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+
+                        // Cart Item 1 (Pizza)
+                        Row(
+                          children: [
+                            Image.asset(
+                              "assets/images/Pizz.png",
+                              height: 45,
+                            ), // Medium image
+                            const SizedBox(width: 12),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: const [
+                                Text(
+                                  "Margherita Pizza",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                                Text(
+                                  "1 x \$8.99",
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const Spacer(),
+                            const Text(
+                              "\$8.99",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            const Icon(
+                              Icons.delete_outline,
+                              color: Colors.red,
+                              size: 22,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+
+                        // Cart Item 2 (Chicken Burger)
+                        Row(
+                          children: [
+                            Image.asset("assets/images/burger.png", height: 45),
+                            const SizedBox(width: 12),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: const [
+                                Text(
+                                  "Chicken Burger",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                                Text(
+                                  "1 x \$6.99",
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const Spacer(),
+                            const Text(
+                              "\$6.99",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            const Icon(
+                              Icons.delete_outline,
+                              color: Colors.red,
+                              size: 22,
+                            ),
+                          ],
+                        ),
+
+                        const SizedBox(height: 15),
+                        const Divider(color: Colors.black12, height: 1),
+                        const SizedBox(height: 12),
+
+                        // Total Price Row
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: const [
+                            Text(
+                              "Total",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                            Text(
+                              "\$15.98",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 15),
+
+                        // View Cart Button
+                        SizedBox(
+                          width: double.infinity,
+                          height: 45, // Perfect touch target size
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFFFF6B18),
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                Text(
+                                  "View Cart",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(width: 8),
+                                Icon(
+                                  Icons.arrow_forward,
+                                  color: Colors.white,
+                                  size: 18,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
