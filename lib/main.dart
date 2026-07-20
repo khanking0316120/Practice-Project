@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:practice/Home-Screen.dart';
+import 'package:practice/Setting.dart';
 import 'package:practice/Sign-up-screen.dart';
 import 'package:practice/Splash-scree.dart';
 import 'package:practice/Stack_screen.dart';
 import 'package:practice/bottomnavbar_Screen.dart';
+import 'package:practice/counteapp.dart';
 import 'package:practice/sign-in-screen.dart';
 
 void main() {
@@ -24,7 +26,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
       ),
       // 3. Set Studentprofile as the home screen
-      home: BottomNavbar(),
+      home: CounterScreen(),
     );
   }
 }
