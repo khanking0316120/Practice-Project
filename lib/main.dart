@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:practice/Calculator.dart';
 import 'package:practice/Home-Screen.dart';
 import 'package:practice/Setting.dart';
 import 'package:practice/Sign-up-screen.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
       ),
       // 3. Set Studentprofile as the home screen
-      home: CounterScreen(),
+      home: CalculatorScreen(),
     );
   }
 }

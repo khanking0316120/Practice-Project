@@ -1,26 +1,5 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Pro Counter App',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const CounterScreen(),
-    );
-  }
-}
-
 class CounterScreen extends StatefulWidget {
   const CounterScreen({super.key});
 
@@ -29,17 +8,17 @@ class CounterScreen extends StatefulWidget {
 }
 
 class _CounterScreenState extends State<CounterScreen> {
-  // यह वेरिएबल हमारे काउंट को स्टोर करेगा
+  // Yeh variable hamare count ko store karega
   int _counter = 0;
 
-  // प्लस बटन के लिए फंक्शन
+  // Plus button ke liye function
   void _incrementCounter() {
     setState(() {
       _counter++;
     });
   }
 
-  // माइनस बटन के लिए फंक्शन
+  // Minus button ke liye function
   void _decrementCounter() {
     setState(() {
       _counter--;
@@ -49,7 +28,7 @@ class _CounterScreenState extends State<CounterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100], // हल्का बैकग्राउंड कलर
+      backgroundColor: Colors.grey[100],
       appBar: AppBar(
         title: const Text(
           'Counter Pro',
@@ -75,8 +54,7 @@ class _CounterScreenState extends State<CounterScreen> {
             ],
           ),
           child: Column(
-            mainAxisSize: MainAxisSize
-                .min, // कार्ड को कंटेंट के हिसाब से साइज़ देने के लिए
+            mainAxisSize: MainAxisSize.min,
             children: [
               const Text(
                 'Current Count',
@@ -88,7 +66,7 @@ class _CounterScreenState extends State<CounterScreen> {
                 ),
               ),
               const SizedBox(height: 16),
-              // एनिमेटेड तरीके से नंबर बदलने के लिए AnimatedSwitcher (ऑप्शनल लेकिन अच्छा दिखता है)
+              // AnimatedSwitcher for smooth number transition
               AnimatedSwitcher(
                 duration: const Duration(milliseconds: 200),
                 transitionBuilder: (Widget child, Animation<double> animation) {
@@ -109,7 +87,7 @@ class _CounterScreenState extends State<CounterScreen> {
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // डिक्रीमेंट (-) बटन
+                  // Decrement (-) Button
                   ElevatedButton(
                     onPressed: _decrementCounter,
                     style: ElevatedButton.styleFrom(
@@ -127,7 +105,7 @@ class _CounterScreenState extends State<CounterScreen> {
                     child: const Icon(Icons.remove, size: 32),
                   ),
                   const SizedBox(width: 24),
-                  // इंक्रीमेंट (+) बटन
+                  // Increment (+) Button
                   ElevatedButton(
                     onPressed: _incrementCounter,
                     style: ElevatedButton.styleFrom(
